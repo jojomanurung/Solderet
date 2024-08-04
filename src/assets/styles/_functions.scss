@@ -1,0 +1,36 @@
+// @see https://github.com/twbs/bootstrap/blob/main/scss/_functions.scss
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($string, $index + str-length($search)),
+        $search,
+        $replace
+      );
+  }
+
+  @return $string;
+}
+
+@mixin icons-font() {
+  .#{$icon-prefix},
+  .#{$icon-prefix}-fill {
+    font-family: $icon-font-family;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1rem;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased; // Support for all WebKit browsers
+    -moz-osx-font-smoothing: grayscale; // Support for Firefox
+    text-rendering: optimizeLegibility; // Support for Safari and Chrome
+    font-feature-settings: "liga"; // Support for IE
+  }
+}

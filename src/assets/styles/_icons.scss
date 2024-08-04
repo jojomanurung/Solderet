@@ -1,0 +1,7 @@
+@include icons-font();
+
+@each $key, $value in $material-icons {
+  .#{$icon-prefix}-#{$key}:before {
+      content: $value;
+  }
+}

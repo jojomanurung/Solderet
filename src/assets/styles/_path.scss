@@ -1,0 +1,7 @@
+@font-face {
+  font-family: $icon-font-family;
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: block;
+  src: url("#{$icon-font-path + $icon-filename}.woff2") format("woff2");
+}

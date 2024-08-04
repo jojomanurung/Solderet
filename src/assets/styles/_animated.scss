@@ -1,0 +1,159 @@
+// From Font Awesome
+// Spin
+.#{$icon-prefix}-spin {
+  -webkit-animation: #{$icon-prefix}-spin 2s linear infinite var(--#{$icon-prefix}-animation-direction, normal);
+  animation: #{$icon-prefix}-spin 2s linear infinite var(--#{$icon-prefix}-animation-direction, normal);
+}
+
+.#{$icon-prefix}-spin-reverse {
+  --#{$icon-prefix}-animation-direction: reverse;
+}
+
+@-webkit-keyframes #{$icon-prefix}-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes #{$icon-prefix}-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+// Beat
+.#{$icon-prefix}-beat {
+  -webkit-animation: #{$icon-prefix}-beat 1s ease-in-out infinite;
+  animation: #{$icon-prefix}-beat 1s ease-in-out infinite;
+}
+
+@-webkit-keyframes #{$icon-prefix}-beat {
+  0%,
+  90% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.25);
+  }
+}
+
+@keyframes #{$icon-prefix}-beat {
+  0%,
+  90% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.25);
+  }
+}
+
+// Bounce
+.#{$icon-prefix}-bounce {
+  -webkit-animation: #{$icon-prefix}-bounce 1s cubic-bezier(0.28, 0.84, 0.42, 1)
+    infinite;
+  animation: #{$icon-prefix}-bounce 1s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+}
+
+@-webkit-keyframes #{$icon-prefix}-bounce {
+  0% {
+    transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    transform: scale(1.1, 0.9) translateY(0);
+  }
+  30% {
+    transform: scale(0.9, 1.1) translateY(-0.5em);
+  }
+  50% {
+    transform: scale(1.05, 0.95) translateY(0);
+  }
+  57% {
+    transform: scale(1, 1) translateY(-0.125em);
+  }
+  64% {
+    transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    transform: scale(1, 1) translateY(0);
+  }
+}
+
+@keyframes #{$icon-prefix}-bounce {
+  0% {
+    transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    transform: scale(1.1, 0.9) translateY(0);
+  }
+  30% {
+    transform: scale(0.9, 1.1) translateY(-0.5em);
+  }
+  50% {
+    transform: scale(1.05, 0.95) translateY(0);
+  }
+  57% {
+    transform: scale(1, 1) translateY(-0.125em);
+  }
+  64% {
+    transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    transform: scale(1, 1) translateY(0);
+  }
+}
+
+// Fade
+.#{$icon-prefix}-fade {
+  -webkit-animation: #{$icon-prefix}-fade 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: #{$icon-prefix}-fade 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@-webkit-keyframes #{$icon-prefix}-fade {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes #{$icon-prefix}-fade {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+// Beat Fade
+.#{$icon-prefix}-beat-fade {
+  -webkit-animation: #{$icon-prefix}-beat-fade 1s cubic-bezier(.4,0,.6,1) infinite;
+  animation: #{$icon-prefix}-beat-fade 1s cubic-bezier(.4,0,.6,1) infinite;
+}
+
+@-webkit-keyframes #{$icon-prefix}-beat-fade {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.125);
+  }
+}
+
+@keyframes #{$icon-prefix}-beat-fade {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.125);
+  }
+}
