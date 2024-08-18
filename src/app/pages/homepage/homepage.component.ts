@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { ToolbarModule } from 'primeng/toolbar';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [ToolbarModule, ButtonModule, InputTextModule],
+  imports: [HeaderComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss',
 })

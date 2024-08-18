@@ -1,0 +1,12 @@
+<p-toolbar styleClass="bg-primary-reverse border-none md:mx-4 lg:mx-8">
+  <div class="p-toolbar-group-start">
+    <h1 class="text-primary m-0">Solderet</h1>
+  </div>
+  <div class="p-toolbar-group-end">
+    @if (!(isBelowMd$ | async)) {
+    <p-button icon="mi mi-close mi-24px" [text]="true" />
+    } @else {
+    <p-button icon="mi mi-menu mi-24px" [text]="true" />
+    }
+  </div>
+</p-toolbar>

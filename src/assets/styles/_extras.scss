@@ -26,6 +26,7 @@ $degrees: 45 90 135 180 225 270 315;
     filter: FlipH;
     -ms-filter: "FlipH";
 }
+
 .#{$icon-prefix}-flip-v {
     -webkit-transform: scaleY(-1);
     transform: scaleY(-1);
