@@ -4,11 +4,22 @@
 @use "primeflex/primeflex.css";
 @use "assets/styles/icons/index.scss";
 
+body {
+  @extend .m-2;
+  @extend .text-800;
+}
+
 a {
   text-decoration: none;
-  @extend .text-color;
+  color: inherit;
 }
 
 a:visited {
   @extend .text-green-700;
+}
+
+.container {
+  @extend .px-3;
+  @extend .md\:px-6;
+  @extend .lg\:px-8;
 }

@@ -1,12 +1,26 @@
-<p-toolbar styleClass="bg-primary-reverse border-none md:mx-4 lg:mx-8">
-  <div class="p-toolbar-group-start">
-    <h1 class="text-primary m-0">Solderet</h1>
+<p-toolbar styleClass="bg-white border-none container">
+  <div class="p-toolbar-group-start gap-6">
+    <h3 class="text-primary text-lg m-0">Solderet</h3>
+    @if (!(isBelowSm$ | async)) {
+    <div class="flex gap-4">
+      <a
+        class="transition-colors transition-duration-300 hover:text-primary"
+        href="#"
+        >Sort Algorithm</a
+      >
+      <a
+        class="transition-colors transition-duration-300 hover:text-primary"
+        href="#"
+        >Weather</a
+      >
+    </div>
+    }
   </div>
   <div class="p-toolbar-group-end">
-    @if (!(isBelowMd$ | async)) {
-    <p-button icon="mi mi-close mi-24px" [text]="true" />
+    @if (isBelowSm$ | async) {
+    <p-button icon="mi mi-menu mi-size-22" [text]="true" />
     } @else {
-    <p-button icon="mi mi-menu mi-24px" [text]="true" />
+    <p-button icon="mi mi-light_mode mi-size-22" [text]="true" />
     }
   </div>
 </p-toolbar>

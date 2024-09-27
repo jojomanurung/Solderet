@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Observable } from 'rxjs';
-import { BreakpointsService } from '../../services/breakpoints.service';
+import { BreakpointsService } from '../../services/breakpoints/breakpoints.service';
 
 @Component({
   selector: 'app-header',
@@ -14,9 +14,9 @@ import { BreakpointsService } from '../../services/breakpoints.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  isBelowMd$: Observable<boolean>;
+  isBelowSm$: Observable<boolean>;
 
   constructor(private bp: BreakpointsService) {
-    this.isBelowMd$ = this.bp.isBelowMd();
+    this.isBelowSm$ = this.bp.isBelowSm();
   }
 }

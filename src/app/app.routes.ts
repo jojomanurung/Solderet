@@ -1,9 +1,16 @@
 import { Routes } from '@angular/router';
-import { HomepageComponent } from './pages/homepage/homepage.component';
 
 export const routes: Routes = [
   {
+    path: 'sort_visualizer',
+    loadComponent: () =>
+      import('./pages/sort-visualizer/sort-visualizer.component').then(
+        (c) => c.SortVisualizerComponent
+      ),
+  },
+  {
     path: '',
-    component: HomepageComponent
-  }
+    redirectTo: 'sort_visualizer',
+    pathMatch: 'full'
+  },
 ];
