@@ -23,13 +23,21 @@ export class SortChartService {
     }
   }
 
-  newRandomArray(min: number, max: number, length: number = 5) {
-    const randomArray = Array.from(
-      { length },
-      () => Math.floor(Math.random() * (max - min + 1)) + min
-    );
+  newRandomArray(max: number, length: number = 5) {
+    let arr: number[] = [];
+    for (let i = 1; i <= max; i++) {
+      arr.push(i);
+    }
 
-    return randomArray;
+    let result = [];
+
+    for (let i = 1; i <= length; i++) {
+      const random = Math.floor(Math.random() * (max - i));
+      result.push(arr[random]);
+      arr[random] = arr[max - i];
+    }
+
+    return result;
   }
 
   createChartData(array: number[]) {
@@ -51,7 +59,6 @@ export class SortChartService {
       datasets: [
         {
           backgroundColor: colorArray,
-          borderColor: colorArray,
           data: resNumber,
         },
       ],
@@ -71,13 +78,16 @@ export class SortChartService {
   get green() {
     return this.greenColor;
   }
-  
+
   get yellow() {
     return this.yellowColor;
   }
 
   get options() {
     return {
+      categoryPercentage: 1.0,
+      barPercentage: 0.99,
+      events: [],
       scales: {
         x: {
           ticks: {

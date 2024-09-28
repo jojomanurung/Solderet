@@ -24,11 +24,11 @@ import Chart from 'chart.js/auto';
 })
 export class SortVisualizerComponent implements OnInit {
   array: number[] = [];
+  colors: string[] = [];
   length = 30;
-  options: any;
   chart!: Chart;
-  data: any;
-  delay = 100;
+  delay = 1000;
+  running = false;
 
   constructor(private sortChartService: SortChartService) {}
 
@@ -39,110 +39,103 @@ export class SortVisualizerComponent implements OnInit {
   }
 
   createChart() {
-    this.options = this.sortChartService.options;
-    this.array = this.sortChartService.newRandomArray(30, 200, this.length);
-    this.data = this.sortChartService.createChartData(this.array);
+    const options = this.sortChartService.options;
+    const array = this.sortChartService.newRandomArray(200, this.length);
+    const data = this.sortChartService.createChartData(array);
     this.chart = new Chart('MyChart', {
       type: 'bar',
-      data: this.data,
-      options: this.options,
+      data: data,
+      options: options,
     });
+    this.array = this.chart.data.datasets[0].data as number[];
+    this.colors = this.chart.data.datasets[0].backgroundColor as string[];
   }
 
   generateNewArray() {
-    this.array = this.sortChartService.newRandomArray(30, 200, this.length);
-    this.data = this.sortChartService.createChartData(this.array);
-    this.chart.data = this.data;
+    const array = this.sortChartService.newRandomArray(200, this.length);
+    const data = this.sortChartService.createChartData(array);
+    this.chart.data = data;
     this.chart.update();
+    this.array = this.chart.data.datasets[0].data as number[];
+    this.colors = this.chart.data.datasets[0].backgroundColor as string[];
   }
 
-  // mergeSort() {
-  //   const sortHistory = this.sortChartService.doSort(this.array);
+  async run() {
+    this.runBtn();
+  }
 
-  //   let historyIndex = 0;
-  //   let timeout = 0;
-  //   do {
-  //     let result: any = [];
-  //     for (let i = 0; i < sortHistory[historyIndex].length; i++) {
-  //       result.push({
-  //         data: sortHistory[historyIndex][i],
-  //         color:
-  //           sortHistory[historyIndex][i] <=
-  //           sortHistory[historyIndex][
-  //             i + 1 <= sortHistory[historyIndex].length - 1 ? i + 1 : i
-  //           ]
-  //             ? this.sortChartService.blue
-  //             : this.sortChartService.red,
-  //       });
-  //     }
-  //     timeout += 1000;
-  //     this.chartUpdateDelay(result, timeout);
-  //     historyIndex++;
-  //   } while (historyIndex <= sortHistory.length - 1);
-  // }
+  async runBtn() {
+    this.running = true;
+    await this.mergeSort(this.array, 0, this.array.length);
+    await this.controlLoop();
+    await this.resetColors();
+    this.running = false;
+  }
 
-  async mergeSort() {
-    let array = this.chart.data.datasets[0].data as number[];
-    let color = this.chart.data.datasets[0].backgroundColor as string[];
-    let length = array.length;
-    let array0 = array;
-    let array1 = new Array(length);
-    let color1 = new Array(length).map(() => this.sortChartService.blue);
+  async mergeSort(arr: number[], start: number, end: number) {
+    if (start >= end - 1) return;
+    let mid = start + ~~((end - start) / 2);
 
-    for (let i = 1; i < length; i *= 2) {
-      for (let j = 0; j < length; j += 2 * i) {
-        let right = Math.min(j + i, length);
-        let end = Math.min(j + 2 * i, length);
-        await this.merge(array0, array1, j, right, end, color, color1);
+    await this.mergeSort(arr, start, mid);
+    await this.mergeSort(arr, mid, end);
+
+    let cache = Array(end - start).fill(arr[0]);
+    let k = mid;
+
+    for (let i = start, r = 0; i < mid; r++, i++) {
+      if (!this.running) break;
+      while (k < end && arr[k] < arr[i]) {
+        cache[r] = arr[k];
+        r++;
+        k++;
       }
-      let temp = array0;
-      array0 = array1;
-      array1 = temp;
+      cache[r] = arr[i];
+    }
 
-      let tempColor = color;
-      color = color1;
-      color1 = tempColor;
+    for (let i = 0; i < k - start; i++) {
+      if (!this.running) break;
+      arr[i + start] = cache[i];
+      this.changeColor(i + start, this.sortChartService.red);
+      await this.sleep(this.delay / arr.length);
+      this.resetColor(i + start);
     }
   }
 
-  async merge(
-    array0: number[],
-    array1: number[],
-    leftIdx: number,
-    rightIdx: number,
-    end: number,
-    color: string[],
-    color1: string[],
-  ) {
-    let k = leftIdx;
-    let left = leftIdx;
-    let right = rightIdx;
+  async controlLoop() {
+    let delay = this.delay / this.array.length / 2;
+    let anim_length = this.array.length / 6;
+    for (let i = 0; i < this.array.length + anim_length; i++) {
+      if (!this.running) break;
 
-    while (k < end) {
-      color[k] = this.sortChartService.red;
-      color[right] = this.sortChartService.yellow
-      if (left < rightIdx && (right >= end || array0[left] <= array0[right])) {
-        array1[k] = array0[left];
-        color1[k] = this.sortChartService.green;
-        await this.chartUpdateDelay();
-        left += 1;
-      } else {
-        array1[k] = array0[right];
-        color1[k] = this.sortChartService.green;
-        await this.chartUpdateDelay();
-        right += 1;
+      if (i < this.array.length) {
+        this.changeColor(i, this.sortChartService.green);
       }
 
-      k += 1;
+      await this.sleep(delay);
     }
   }
 
-  async chartUpdateDelay() {
+  changeColor(i: number, color: string) {
+    this.colors[i] = color;
+    this.chart.update('none');
+  }
+
+  resetColor(i: number) {
+    this.colors[i] = this.sortChartService.blue;
+    this.chart.update('none');
+  }
+
+  async resetColors() {
+    let delay = this.delay / this.array.length / 2;
+    for (let i = 0; i < this.colors.length; i++) {
+      this.resetColor(i);
+      await this.sleep(delay);
+    }
+  }
+
+  sleep(delay: number) {
     return new Promise((resolve) => {
-      setTimeout(() => {
-        this.chart.update('none');
-        resolve(`done`);
-      }, this.delay);
+      setTimeout(resolve, delay);
     });
   }
 }
